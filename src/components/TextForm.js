@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-export default function TextForm(props) {
+
+export default function TextForm({ mode, showAlert, heading }) {
   const [text, setText] = useState("");
 
   const handleUpClick = () => {
     let newText = text.toUpperCase();
     setText(newText);
-    props.showAlert("Converted to uppercase!", "success");
+    showAlert("Converted to uppercase!", "success");
   };
 
   const handleLoClick = () => {
     let newText = text.toLowerCase();
     setText(newText);
-    props.showAlert("Converted to lowercase!", "success");
+    showAlert("Converted to lowercase!", "success");
   };
 
   const handleFirstCaps = () => {
@@ -23,7 +24,7 @@ export default function TextForm(props) {
       })
       .join(" ");
     setText(capitalized);
-    props.showAlert("Capitalized sentences!", "success");
+    showAlert("Capitalized sentences!", "success");
   };
 
   const handleWordCaps = () => {
@@ -35,25 +36,25 @@ export default function TextForm(props) {
       })
       .join(" ");
     setText(capitalized);
-    props.showAlert("Capitalized Words!", "success");
+    showAlert("Capitalized Words!", "success");
   };
 
   const handleClearClick = () => {
     setText("");
-    props.showAlert("Text cleared!", "success");
+    showAlert("Text cleared!", "success");
   };
 
   const handleCopy = () => {
     var text = document.getElementById("myBox");
     text.select();
     navigator.clipboard.writeText(text.value);
-    props.showAlert("Text copied!", "success");
+    showAlert("Text copied!", "success");
   };
 
   const handleExtraSpace = () => {
     let newText = text.split(/[ ]+/);
     setText(newText.join(" "));
-    props.showAlert("Extra space removed!", "success");
+    showAlert("Extra space removed!", "success");
   };
 
   const handleOnChange = (event) => {
@@ -63,8 +64,13 @@ export default function TextForm(props) {
   return (
     <>
       <div className="container" my-3>
-        <h1>{props.heading}</h1>
-
+        <h1
+          style={{
+            color: mode === "dark" ? "black" : "grey",
+          }}
+        >
+          {heading}
+        </h1>
         <div className="mb-3">
           <textarea
             className="form-control"
@@ -72,95 +78,100 @@ export default function TextForm(props) {
             value={text}
             onChange={handleOnChange}
             style={{
-              backgroundColor: props.mode === "dark" ? "dark" : "light",
+              backgroundColor: mode === "dark" ? "black" : "rgb(236, 245, 242)",
+              color: mode === "dark" ? "white" : "black",
+              border: "none",
             }}
             id="myBox"
             rows="8"
           ></textarea>
         </div>
-
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"} mx-1`}
           onClick={handleUpClick}
         >
           Convert to UpperCase
         </button>
-
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1 my-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"
+            } mx-1 my-1`}
           onClick={handleLoClick}
         >
           Convert to LowerCase
         </button>
-
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1 my-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"
+            } mx-1 my-1`}
           onClick={handleFirstCaps}
         >
           Capitalize Sentences
         </button>
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1 my-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"
+            } mx-1 my-1`}
           onClick={handleWordCaps}
         >
           Capitalize Words
         </button>
-
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1 my-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"
+            } mx-1 my-1`}
           onClick={handleClearClick}
         >
           Clear Text
         </button>
-
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1 my-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"
+            } mx-1 my-1`}
           onClick={handleCopy}
         >
           Copy Text
         </button>
-
         <button
           disabled={text.length === 0}
-          className="btn btn-primary mx-1 my-1"
+          className={`btn btn-${mode === "dark" ? "dark" : "secondary"
+            } mx-1 my-1`}
           onClick={handleExtraSpace}
         >
           Remove Extra Spaces
         </button>
       </div>
-
       <div className="container" my-3>
-        <h2>Your Text here</h2>
-
-        <p>
+        <h2
+          style={{
+            color: mode === "dark" ? "black" : "grey",
+          }}
+        >
+          Your Text here
+        </h2>
+        <p
+          style={{
+            color: mode === "dark" ? "black" : "grey",
+          }}
+        >
           {
             text.split(/\s+/).filter((element) => {
               return element.length !== 0;
             }).length
-          }
+          }{" "}
           words and {text.length} characters
         </p>
-
-        <p>
+        <p
+          style={{
+            color: mode === "dark" ? "black" : "grey",
+          }}
+        >
           {0.008 *
             text.split(/\s+/).filter((element) => {
               return element.length !== 0;
             }).length}{" "}
           Minutes to read
-        </p>
-
-        <h3>Preview</h3>
-
-        <p>
-          {text.length > 0
-            ? text
-            : "Enter something in the textbox to preview it!"}
         </p>
       </div>
     </>

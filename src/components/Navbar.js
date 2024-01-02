@@ -1,64 +1,73 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import "./Navbar.css";
 
-export default function Navbar(props) {
+export default function Navbar({ mode, title, toggleMode }) {
   return (
     <nav
-      className={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}
+      class={`navbar  navbar-expand-lg navbar-${mode === "dark" ? "dark" : "light"
+        } bg-${mode === "dark" ? "dark" : ""}`}
     >
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          {props.title}
-        </Link>
+      <div class="container-fluid">
+        <a
+          className="navbar-brand"
+          href="#"
+          style={{
+            color: mode === "dark" ? "rgba(255,255,255,.55)" : "#0d6efde",
+          }}
+        >
+          {title}
+        </a>
         <button
-          className="navbar-toggler"
+          class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target={`#navbarNav${mode === "dark" ? "Dark" : ""}Dropdown`}
+          aria-controls={`navbarNav${mode === "dark" ? "Dark" : ""} Dropdown`}
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span
+            class="navbar-toggler-icon"
+            style={{ color: mode === "dark" ? "white" : "blue" }}
+          ></span>
         </button>
-
-        <div className="collapse navbar-collapse" id="navbarSupportContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" aria-current="page" to="/">
-                Home
-              </Link>
+        <div
+          class="collapse navbar-collapse"
+          id={`navbarNav${mode === "dark" ? "Dark" : ""}Dropdown`}
+        >
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id={`navbar${mode === "dark" ? "Dark" : ""}DropdownMenuLink`}
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Mode
+              </a>
+              <ul
+                class={`dropdown-menu dropdown-menu-${mode === "dark" ? "dark" : ""
+                  }`}
+                aria-labelledby={`navbar${mode === "dark" ? "Dark" : ""
+                  }DropdownMenuLink`}
+              >
+                <li onClick={() => toggleMode("Dark Mode")}>
+                  <a class="dropdown-item" href="#">
+                    Dark
+                  </a>
+                </li>
+                <li onClick={() => toggleMode("Light Mode")}>
+                  <a class="dropdown-item" href="#">
+                    Light
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
-
-          <div
-            className={`form-check form-switch text-${
-              props.mode === "light" ? "dark" : "light"
-            }`}
-          >
-            <input
-              className="form-check-input"
-              onClick={props.toggleMode}
-              type="checkbox"
-              id="flexSwitchCheckDefault"
-            />
-            <label
-              className="form-check-label"
-              htmlFor="flexSwitchCheckDefault"
-            >
-              Change Mode
-            </label>
-          </div>
         </div>
       </div>
     </nav>
   );
 }
-Navbar.propTypes = {
-  title: PropTypes.string.isRequired,
-};
-
-Navbar.defaultProps = {
-  title: "Set title here",
-};
